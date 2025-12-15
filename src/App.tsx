@@ -24,6 +24,7 @@ function AppContent() {
   const [currentChatTitle, setCurrentChatTitle] = useState("UAV Maintenance Analysis");
   const [selectedFileTitle, setSelectedFileTitle] = useState<string | null>(null);
   const [chatKey, setChatKey] = useState(0);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   // Store all messages for dynamic report generation
   const [userMessages, setUserMessages] = useState<string[]>([]);
@@ -116,8 +117,8 @@ function AppContent() {
 
   return (
     <div className="flex h-screen bg-slate-950 dark:bg-slate-950 light:bg-gray-50">
-      {/* SIDEBAR */}
-      <aside className="w-56 bg-[var(--bg-secondary)] border-r border-[var(--border-primary)] flex flex-col">
+      {/* DESKTOP SIDEBAR */}
+      <aside className="hidden md:flex w-56 bg-[var(--bg-secondary)] border-r border-[var(--border-primary)] flex-col">
         <div className="p-4 border-b border-[var(--border-primary)] flex items-center gap-3 bg-[var(--bg-primary)]">
           <div className="w-8 h-8 rounded bg-[var(--accent)] flex items-center justify-center">
             <span className="text-white font-bold text-lg">⬢</span>
@@ -143,7 +144,7 @@ function AppContent() {
             onClick={() => setViewMode("chat")}
             className={`w-full text-left px-3 py-2 rounded-lg text-sm ${
               viewMode === "chat"
-                ? "bg-emerald-500/20 text-emerald-300"
+                ? "bg-emerald-500/20 text-[var(--text-primary)]"
                 : "text-slate-300 dark:text-slate-300 light:text-gray-700 hover:bg-slate-800 dark:hover:bg-slate-800 light:hover:bg-gray-100"
             }`}
           >
@@ -157,7 +158,7 @@ function AppContent() {
             onClick={() => setViewMode("files")}
             className={`w-full text-left px-3 py-2 rounded-lg text-sm ${
               viewMode === "files"
-                ? "bg-emerald-500/20 text-emerald-300"
+                ? "bg-emerald-500/20 text-[var(--text-primary)]"
                 : "text-[var(--text-primary)] hover:bg-[var(--bg-tertiary)]"
             }`}
           >
@@ -216,12 +217,123 @@ function AppContent() {
         </div>
       </aside>
 
+      {/* MOBILE SIDEBAR (drawer) */}
+      <div
+        className={`fixed inset-y-0 left-0 z-50 w-64 transform bg-[var(--bg-secondary)] border-r border-[var(--border-primary)] transition-transform duration-200 md:hidden ${
+          sidebarOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
+        aria-hidden={!sidebarOpen}
+      >
+        <div className="p-4 border-b border-[var(--border-primary)] flex items-center gap-3 bg-[var(--bg-primary)]">
+          <div className="w-8 h-8 rounded bg-[var(--accent)] flex items-center justify-center">
+            <span className="text-white font-bold text-lg">⬢</span>
+          </div>
+          <div>
+            <h2 className="text-[var(--text-primary)] text-sm font-semibold">Crownwell AI</h2>
+            <p className="text-xs text-[var(--text-secondary)]">AgentInterface</p>
+          </div>
+          <div className="ml-auto">
+            <button onClick={() => setSidebarOpen(false)} className="p-2 text-sm text-slate-300">
+              ✕
+            </button>
+          </div>
+        </div>
+
+        <div className="p-3">
+          <button
+            onClick={() => { handleNewChat(); setSidebarOpen(false); }}
+            className="w-full py-2.5 rounded-lg bg-emerald-500 hover:bg-emerald-600 text-white text-sm"
+          >
+            + New Chat
+          </button>
+        </div>
+
+        <div className="px-3 py-2">
+          <h3 className="text-xs text-slate-400 dark:text-slate-400 light:text-gray-500 uppercase mb-2">TODAY</h3>
+          <button
+            onClick={() => { setViewMode("chat"); setSidebarOpen(false); }}
+            className={`w-full text-left px-3 py-2 rounded-lg text-sm ${
+              viewMode === "chat"
+                ? "bg-emerald-500/20 text-[var(--text-primary)]"
+                : "text-slate-300 dark:text-slate-300 light:text-gray-700 hover:bg-slate-800 dark:hover:bg-slate-800 light:hover:bg-gray-100"
+            }`}
+          >
+            🎯 {currentChatTitle}
+          </button>
+        </div>
+
+        <div className="px-3 py-2 border-t border-[var(--border-primary)]">
+          <h3 className="text-xs text-[var(--text-secondary)] uppercase mb-2">WORKSPACES</h3>
+          <button
+            onClick={() => { setViewMode("files"); setSidebarOpen(false); }}
+            className={`w-full text-left px-3 py-2 rounded-lg text-sm ${
+              viewMode === "files"
+                ? "bg-emerald-500/20 text-[var(--text-primary)]"
+                : "text-[var(--text-primary)] hover:bg-[var(--bg-tertiary)]"
+            }`}
+          >
+            📁 Browse Files
+          </button>
+        </div>
+
+        <div className="px-3 py-2 border-t border-slate-800 dark:border-slate-800 light:border-gray-200">
+          <h3 className="text-xs text-slate-400 dark:text-slate-400 light:text-gray-500 uppercase mb-2">INTEGRATIONS</h3>
+          <div className="flex items-center justify-center gap-3">
+            <button
+              onClick={handleComingSoon}
+              className="p-2 rounded-lg text-slate-300 dark:text-slate-300 light:text-gray-700 hover:bg-slate-800 dark:hover:bg-slate-800 light:hover:bg-gray-100 transition-colors"
+              title="Jira"
+            >
+              <IconChecklist size={20} />
+            </button>
+            <button
+              onClick={handleComingSoon}
+              className="p-2 rounded-lg text-slate-300 dark:text-slate-300 light:text-gray-700 hover:bg-slate-800 dark:hover:bg-slate-800 light:hover:bg-gray-100 transition-colors"
+              title="Mail"
+            >
+              <IconMail size={20} />
+            </button>
+            <button
+              onClick={handleComingSoon}
+              className="p-2 rounded-lg text-slate-300 dark:text-slate-300 light:text-gray-700 hover:bg-slate-800 dark:hover:bg-slate-800 light:hover:bg-gray-100 transition-colors"
+              title="Slack"
+            >
+              <IconBrandSlack size={20} />
+            </button>
+          </div>
+        </div>
+
+        <div className="flex-1"></div>
+
+        <div className="border-t border-slate-800 dark:border-slate-800 light:border-gray-200 p-3 space-y-2">
+          <button 
+            onClick={() => { toggleTheme(); setSidebarOpen(false); }}
+            className="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-300 dark:text-slate-300 light:text-gray-700 hover:bg-slate-800 dark:hover:bg-slate-800 light:hover:bg-gray-100 flex items-center gap-2"
+          >
+            {theme === 'dark' ? <IconSun size={16} /> : <IconMoon size={16} />}
+            {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
+          </button>
+        </div>
+      </div>
+
+      {/* MOBILE OVERLAY */}
+      {sidebarOpen && <div className="fixed inset-0 z-40 bg-black/40 md:hidden" onClick={() => setSidebarOpen(false)} />}
+
       {/* MAIN */}
       <div className="flex-1 flex flex-col overflow-hidden bg-[var(--bg-primary)]">
         <header className="border-b border-[var(--border-primary)] bg-[var(--bg-secondary)]/60 p-4 flex justify-between">
-          <h1 className="text-lg text-[var(--text-primary)] font-semibold">
-            {viewMode === "files" || viewMode === "report" ? selectedFileTitle || currentChatTitle : currentChatTitle}
-          </h1>
+          <div className="flex items-center">
+            <button
+              onClick={() => setSidebarOpen(true)}
+              className="md:hidden mr-3 p-2 rounded-lg hover:bg-[var(--bg-tertiary)] text-[var(--text-primary)]"
+              aria-label="Open menu"
+            >
+              ☰
+            </button>
+            <h1 className="text-lg text-[var(--text-primary)] font-semibold">
+              {viewMode === "files" || viewMode === "report" ? selectedFileTitle || currentChatTitle : currentChatTitle}
+            </h1>
+          </div>
 
           <div className="flex items-center gap-3">
             <ModelSelector selectedModel={selectedModel} onModelChange={setSelectedModel} />

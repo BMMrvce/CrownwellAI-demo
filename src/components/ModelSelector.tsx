@@ -1,4 +1,5 @@
 import type { SupportedModel } from '../App'
+import { useTheme } from '../contexts/ThemeContext'
 
 interface ModelSelectorProps {
   selectedModel: SupportedModel
@@ -12,13 +13,20 @@ const MODELS: { value: SupportedModel; label: string; description: string }[] = 
 ]
 
 export default function ModelSelector({ selectedModel, onModelChange }: ModelSelectorProps) {
+  const { theme } = useTheme()
+  void theme
+
+  // Use CSS variable for color so options in native dropdown inherit properly
+  const textColor = 'var(--text-primary)'
+
   return (
     <div className="relative inline-flex items-center gap-2">
       <select
         id="model-select"
         value={selectedModel}
         onChange={(e) => onModelChange(e.target.value as SupportedModel)}
-        className="appearance-none py-2 pr-10 pl-4 rounded-lg border border-emerald-500/30 bg-transparent text-slate-100 text-[0.95rem] font-medium cursor-pointer transition-all duration-200 hover:bg-emerald-500/5 focus:outline-none focus:border-emerald-500/60"
+        style={{ color: textColor }}
+        className="appearance-none py-2 pr-10 pl-4 rounded-lg border border-emerald-500/30 bg-transparent text-[0.95rem] font-medium cursor-pointer transition-all duration-200 hover:bg-emerald-500/5 focus:outline-none focus:border-emerald-500/60"
       >
         {MODELS.map((model) => (
           <option key={model.value} value={model.value}>

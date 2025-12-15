@@ -91,6 +91,30 @@ html.dark body {
   color: var(--text-primary) !important;
 }
 
+/* Ensure native select and option lists are readable in both themes */
+html.light select,
+html.light select option {
+  color: var(--text-primary) !important;
+  background-color: var(--bg-secondary) !important;
+}
+
+html.dark select,
+html.dark select option {
+  color: var(--text-primary) !important;
+  background-color: var(--bg-secondary) !important;
+}
+
+/* Try to force checked/selected option visibility across browsers */
+select option:checked {
+  color: var(--text-primary) !important;
+  background-color: var(--bg-secondary) !important;
+}
+
+/* Small tweak for the select arrow to match theme */
+.relative .pointer-events-none {
+  color: var(--text-secondary) !important;
+}
+
 /* Typography */
 body {
   font-family: 'Inter', 'Manrope', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
