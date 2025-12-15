@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState, useCallback } from "react";
+void useMemo
 import ChatInterface from "./components/ChatInterface";
 import FilesView from "./components/FilesView";
 import ReportPreview from "./components/ReportPreview";
@@ -31,7 +32,7 @@ function AppContent() {
   const [toolTables, setToolTables] = useState<{ headers: string[]; rows: any[][] }[]>([]);
   const [pendingPrint, setPendingPrint] = useState(false);
 
-  const chartPoints = useMemo(() => [45, 52, 48, 60, 62, 70, 78, 84], []);
+  // const chartPoints = useMemo(() => [45, 52, 48, 60, 62, 70, 78, 84], []);
 
   useEffect(() => {
     if (viewMode !== "report" || !pendingPrint) return;

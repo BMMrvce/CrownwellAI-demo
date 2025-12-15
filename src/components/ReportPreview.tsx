@@ -8,7 +8,7 @@ interface ReportPreviewProps {
   tables: Array<{ headers: string[], rows: any[][] }>
 }
 
-export default function ReportPreview({ title, userMessages, assistantMessages, modelLabel }: ReportPreviewProps) {
+export default function ReportPreview({ title, userMessages, assistantMessages }: ReportPreviewProps) {
   return (
     <div className="h-full overflow-y-auto bg-[var(--bg-secondary)] text-[var(--text-primary)] print:bg-white transition-colors duration-200 scrollbar-custom">
       {/* Professional Report Container */}
