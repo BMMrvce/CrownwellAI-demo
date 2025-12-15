@@ -1,0 +1,178 @@
+@import "tailwindcss";
+
+@theme {
+  --color-teal-*: initial;
+  --color-slate-*: initial;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) {
+    color-scheme: dark;
+  }
+}
+
+/* Custom animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+@keyframes dots {
+  0%, 20% { content: '.'; }
+  40% { content: '..'; }
+  60%, 100% { content: '...'; }
+}
+
+/* Custom scrollbar styles (uses theme vars) - Hidden but functional */
+.scrollbar-custom {
+  scrollbar-width: none;
+  scrollbar-gutter: stable;
+  -ms-overflow-style: none;
+}
+
+.scrollbar-custom::-webkit-scrollbar {
+  display: none;
+}
+
+/* Theme support - Global theme classes with CSS variables */
+:root {
+  /* Pine-inspired Light */
+  --bg-primary: #f6fbf7;
+  --bg-secondary: #eef5f0;
+  --bg-tertiary: #dfe9e3;
+  --text-primary: #0f2119;
+  --text-secondary: #2f3f35;
+  --border-primary: #c8d7ce;
+  --accent: #2f8f6b;
+}
+
+html.light {
+  color-scheme: light;
+  --bg-primary: #f6fbf7;
+  --bg-secondary: #eef5f0;
+  --bg-tertiary: #dfe9e3;
+  --text-primary: #0f2119;
+  --text-secondary: #2f3f35;
+  --border-primary: #c8d7ce;
+  --accent: #2f8f6b;
+}
+
+html.dark {
+  color-scheme: dark;
+  /* Pine-inspired Dark */
+  --bg-primary: #0b1a14;
+  --bg-secondary: #0f2419;
+  --bg-tertiary: #123022;
+  --text-primary: #e5f2e9;
+  --text-secondary: #9fb8aa;
+  --border-primary: #1d3a2a;
+  --accent: #46c28c;
+}
+
+/* Apply theme colors globally */
+html.light body {
+  background-color: var(--bg-secondary) !important;
+  color: var(--text-primary) !important;
+}
+
+html.dark body {
+  background-color: var(--bg-primary) !important;
+  color: var(--text-primary) !important;
+}
+
+/* Typography */
+body {
+  font-family: 'Inter', 'Manrope', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* Print styles - fix blank page issue */
+@media print {
+  @page {
+    size: auto;
+    margin: 0.5in;
+  }
+
+  /* Force light theme for print regardless of runtime theme */
+  :root,
+  html,
+  body,
+  main {
+    color-scheme: light !important;
+    --bg-primary: #f6fbf7 !important;
+    --bg-secondary: #eef5f0 !important;
+    --bg-tertiary: #dfe9e3 !important;
+    --text-primary: #0f2119 !important;
+    --text-secondary: #2f3f35 !important;
+    --border-primary: #c8d7ce !important;
+    --accent: #2f8f6b !important;
+    background: #f6fbf7 !important;
+    color: #0f2119 !important;
+  }
+
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+
+  body {
+    background: white !important;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Hide everything except report content */
+  body > div:first-child > div:first-child {
+    display: none !important;
+  }
+
+  /* Show only the main report container */
+  main {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: auto;
+    overflow: visible !important;
+  }
+
+  /* Force visibility for report content */
+  main * {
+    visibility: visible !important;
+  }
+
+  /* Hide header when printing */
+  header {
+    display: none !important;
+  }
+
+  /* Ensure proper spacing */
+  .max-w-6xl {
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 1rem !important;
+  }
+
+  /* Prevent page breaks inside important elements */
+  .rounded-xl, table, tr {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  /* Ensure backgrounds print */
+  svg, .bg-emerald-500, .bg-gradient-to-br {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
